@@ -8,7 +8,7 @@
 AgentWeb 是一个基于的 Android WebView ，极度容易使用以及功能强大的库，提供了 Android WebView 一系列的问题解决方案 ，并且轻量和极度灵活，体验请下载的 
 [agentweb.apk](https://github.com/Justson/AgentWeb/raw/master/agentweb.apk)，
 或者你也可以到 Google Play 里面下载 [AgentWeb](https://play.google.com/store/apps/details?id=com.just.agentweb.sample) ，
-详细使用是参照上面的 Sample 。
+详细使用请参照上面的 Sample 。
 	
 
 ## 引入
@@ -17,26 +17,16 @@ AgentWeb 是一个基于的 Android WebView ，极度容易使用以及功能强
 * Gradle 
    
    ```
-    compile 'com.just.agentweb:agentweb:4.0.2' // (必选)
-    compile 'com.just.agentweb:download:4.0.2' // (可选)
-    compile 'com.just.agentweb:filechooser:4.0.2'// (可选) 
+    api 'com.just.agentweb:agentweb:4.0.3-beta' // (必选)
+    api 'com.just.agentweb:filechooser:4.0.3-beta'// (可选)
+    api 'com.just.agentweb:download:4.0.3-beta' // (可选)
+    api 'com.github.Justson:Downloader:v4.0.3'// (可选)
    ```
-   
-* Maven
-	
-	```
-	<dependency>
- 	  <groupId>com.just.agentweb</groupId>
- 	  <artifactId>agentweb</artifactId>
-	  <version>4.0.2</version>
-	  <type>pom</type>
-	</dependency>
-	
-	```
 
 ## 相关
 * [AgentWebX5](https://github.com/Justson/AgentWebX5)
 * [一个炫酷的 WebView 进度条](https://github.com/Justson/CoolIndicator)
+* [Downloader 一个轻量的文件下载器](https://github.com/Justson/Downloader)
 
 	
 
@@ -220,9 +210,14 @@ protected DownloadListenerAdapter mDownloadListenerAdapter = new DownloadListene
 ```
 
 
+* #### 查看 Cookies
+```java
+String cookies=AgentWebConfig.getCookiesByUrl(targetUrl);
+```
+
 * #### 同步 Cookie
 ```java
-AgentWebConfig.syncCookie("http://www.jd.com","ID=XXXX")
+AgentWebConfig.syncCookie("http://www.jd.com","ID=XXXX");
 ```
 
 * #### MiddlewareWebChromeBase 支持多个 WebChromeClient
@@ -234,10 +229,11 @@ AgentWebConfig.syncCookie("http://www.jd.com","ID=XXXX")
 //略，请查看 Sample
 ```
 
-* #### 查看 Cookies
+* ####  清空缓存 
 ```java
-String cookies=AgentWebConfig.getCookiesByUrl(targetUrl);
+AgentWebConfig.clearDiskCache(this.getContext());
 ```
+
 * #### 权限拦截
 ```java
 protected PermissionInterceptor mPermissionInterceptor = new PermissionInterceptor() {
@@ -316,6 +312,15 @@ Java 注入类不要混淆 ， 例如 sample 里面的 AndroidInterface 类 ， 
 * `mAgentWeb.getWebLifeCycle().onPause();`会暂停应用内所有`WebView` 。
 * `minSdkVersion` 低于等于16以下自定义`WebView`请注意与 `JS` 之间通信安全。
 * AgentWeb v3.0.0以上版本更新了包名，混淆的朋友们，请更新你的混淆配置。
+* 多进程无法取消下载，[解决方案](https://github.com/Justson/AgentWeb/issues/294)。
+
+## 常见问题
+
+#### 修改 AgentWeb 默认的背景色 
+```java
+		FrameLayout frameLayout = mAgentWeb.getWebCreator().getWebParentLayout();
+		frameLayout.setBackgroundColor(Color.BLACK);
+```
 
 
 ## 文档帮助
@@ -324,10 +329,14 @@ Java 注入类不要混淆 ， 例如 sample 里面的 AndroidInterface 类 ， 
 
 ## 更新日志
 
+* v_4.0.3 更新
+	* 部分手机下载过程中～声音一直响 [#523](https://github.com/Justson/AgentWeb/issues/523)
+	* 抽离[Downloader](https://github.com/Justson/Downloader)
+	* 放弃反射回调WebViewClient#methods，使用洋葱模型的Middleware代替
+
 * v_4.0.2 更新
 	* 修复断点续传时进度计算错误
 	* 修复无法通过`Extra`关闭进度通知
-	* 修复`setopenbreakPointdownload` 命名不规范
 
 * v_4.0.0 更新
 	* `AgentWeb` 拆分出 `AgentWeb-Download` 、 `AgentWeb-FileChooser` 、`AgentWeb-core` 三个库，用户可以按需选择
@@ -385,7 +394,7 @@ Java 注入类不要混淆 ， 例如 sample 里面的 AndroidInterface 类 ， 
 
 
 ## 关于我
-一个位于深圳的 Android 开发者 ， 如果你有问题 ， 请联系 Email : xiaozhongcen@gmail.com
+一个位于深圳的 Android 开发者 ， 如果你有问题 ，或者工作机会， 请联系 Email : xiaozhongcen@gmail.com
 
 ## 赞赏
 如果你喜欢了 `AgentWeb` 的设计 ， 你也可以请作者喝一杯咖啡。

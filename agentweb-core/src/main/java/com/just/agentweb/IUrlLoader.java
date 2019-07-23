@@ -16,6 +16,8 @@
 
 package com.just.agentweb;
 
+import java.util.Map;
+
 /**
  * @author cenxiaozhong
  * @date 2017/6/3
@@ -27,6 +29,8 @@ public interface IUrlLoader {
 
     void loadUrl(String url);
 
+    void loadUrl(String url, Map<String, String> headers);
+
     void reload();
 
     void loadData(String data, String mimeType, String encoding);
@@ -36,7 +40,7 @@ public interface IUrlLoader {
     void loadDataWithBaseURL(String baseUrl, String data,
                              String mimeType, String encoding, String historyUrl);
 
-    void postUrl(String url ,byte[] params);
+    void postUrl(String url, byte[] params);
 
     HttpHeaders getHttpHeaders();
 }
